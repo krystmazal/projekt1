@@ -1,15 +1,14 @@
 import mysql.connector
 from mysql.connector import Error
 
-
 class Database:
-    def __init__(self, host, user, password, database, port):
+    def __init__(self, host, user, password, database):
         try:
-            connect = mysql.connector.connect(host=host, user=user, password=password, port=port)
+            connect = mysql.connector.connect(host=host, user=user, password=password)
             self.conn = connect
             self.cursor = self.conn.cursor()
 
-            self.cursor.execute(f"create database if not exists {database}")
+            self.cursor.execute(f"CREATE DATABASE IF NOT EXISTS {database}")
             self.conn.commit()
 
             self.conn.database = database
@@ -23,17 +22,17 @@ class Database:
     def create_tables(self):
         try:
             self.cursor.execute("""
-                create table if not exists uzytkownik (
-                    id int auto_increment primary key,
+                CREATE TABLE IF NOT EXISTS users (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
                     login VARCHAR(255) UNIQUE NOT NULL,
-                    pass VARCHAR(255) NOT NULL
+                    password VARCHAR(255) NOT NULL
                 )
             """)
 
             self.cursor.execute("""
-                create table if not exists note (
+                CREATE TABLE IF NOT EXISTS notes (
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                    zawartosc TEXT NOT NULL,
+                    tresc TEXT NOT NULL,
                     user_id INT,
                     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
                     time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -47,7 +46,7 @@ class Database:
             self.conn = None
 
     def check_user(self, login, password):
-        query = "select * from users where login = %s and password = %s"
+        query = "SELECT * FROM users WHERE login = %s AND password = %s"
         self.cursor.execute(query, (login, password))
         user = self.cursor.fetchone()
         return user
