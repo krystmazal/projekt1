@@ -31,7 +31,7 @@ class Database:
             """)
 
             self.cursor.execute("""
-                create table if not exists notatka (
+                create table if not exists note (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     zawartosc TEXT NOT NULL,
                     user_id INT,
@@ -67,20 +67,20 @@ class Database:
         user_id = self.cursor.fetchone()
         return user_id[0] if user_id else None
 
-    def select_notatki_by_user(self, user_id):
-        query = "SELECT * FROM notatki WHERE user_id = %s"
+    def select_notes_by_user(self, user_id):
+        query = "SELECT * FROM notes WHERE user_id = %s"
         self.cursor.execute(query, (user_id,))
-        notatki = self.cursor.fetchall()
-        return notatki
+        notes = self.cursor.fetchall()
+        return notes
 
-    def insert_notatka(self, tresc, user_id):
-        query = "INSERT INTO notatki (tresc, user_id) VALUES (%s, %s)"
+    def insert_note(self, tresc, user_id):
+        query = "INSERT INTO notes (tresc, user_id) VALUES (%s, %s)"
         self.cursor.execute(query, (tresc, user_id))
         self.conn.commit()
 
-    def delete_notatka(self, notatka_id):
-        query = "DELETE FROM notatki WHERE id = %s"
-        self.cursor.execute(query, (notatka_id,))
+    def delete_note(self, note_id):
+        query = "DELETE FROM notes WHERE id = %s"
+        self.cursor.execute(query, (note_id,))
         self.conn.commit()
 
     def close(self):
