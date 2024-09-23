@@ -108,9 +108,9 @@ def usun_wybrana_note(notes_listbox, note_entry, login):
 def wyloguj(notatnik_frame):
     notatnik_frame.destroy()
     root.geometry("250x200")
-    zaladuj_okno_logowania()
+    okno_startowe()
 
-def zaladuj_okno_logowania():
+def okno_startowe():
     global login_frame
 
     login_frame = tk.Frame(root)
@@ -140,6 +140,6 @@ root = tk.Tk()
 root.title("Notatnik")
 root.geometry("250x200")
 
-zaladuj_okno_logowania()
+okno_startowe()
 
 root.mainloop()
