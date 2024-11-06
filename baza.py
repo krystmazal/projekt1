@@ -25,7 +25,7 @@ class Database:
                 CREATE TABLE IF NOT EXISTS users (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     login VARCHAR(255) UNIQUE NOT NULL,
-                    password VARCHAR(255) NOT NULL
+                    password VARCHAR(256) NOT NULL
                 )
             """)
 
@@ -46,14 +46,14 @@ class Database:
             self.conn = None
 
     def check_user(self, login, password):
-        query = "SELECT * FROM users WHERE login = %s AND password = %s"
+        query = "SELECT * FROM users WHERE login = %s AND password = SHA2(%s,256)"
         self.cursor.execute(query, (login, password))
         user = self.cursor.fetchone()
         return user
 
     def insert_user(self, login, password):
         try:
-            query = "INSERT INTO users (login, password) VALUES (%s, %s)"
+            query = "INSERT INTO users (login, password) VALUES (%s, SHA2(%s,256))"
             self.cursor.execute(query, (login, password))
             self.conn.commit()
         except mysql.connector.IntegrityError:
