@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentacja Aplikacji Notatnik</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f9; color: #333; }
+        h1, h2, h3 { color: #333; }
+        pre { background-color: #e7e7e7; padding: 10px; overflow-x: auto; border-radius: 5px; }
+        .code { font-family: monospace; color: #d6336c; }
+    </style>
+</head>
+<body>
+
+<h1>Dokumentacja Aplikacji Notatnik</h1>
+
+<p>Ta aplikacja to notatnik z interfejsem graficznym stworzonym w Pythonie z wykorzystaniem Tkintera oraz bazą danych MySQL. Umożliwia użytkownikowi rejestrację, logowanie oraz zarządzanie swoimi notatkami.</p>
+
+<h2>Spis treści</h2>
+<ol>
+    <li><a href="#wymagania">Wymagania</a></li>
+    <li><a href="#struktura">Struktura plików</a></li>
+    <li><a href="#uruchamianie">Uruchamianie aplikacji</a></li>
+    <li><a href="#opis-funkcjonalnosci">Opis funkcjonalności</a></li>
+    <li><a href="#klasa-database">Klasa Database</a></li>
+</ol>
+
+<h2 id="wymagania">1. Wymagania</h2>
+<ul>
+    <li>Python 3.x</li>
+    <li>Biblioteka <span class="code">tkinter</span> (wbudowana w Pythona)</li>
+    <li>Biblioteka <span class="code">mysql-connector-python</span></li>
+  
+</ul>
+
+<h2 id="struktura">2. Struktura plików</h2>
+<ul>
+    <li><span class="code">main.py</span> - główny plik aplikacji zawierający logikę Tkinter</li>
+    <li><span class="code">baza.py</span> - zawiera klasę <span class="code">Database</span> odpowiedzialną za operacje na bazie danych</li>
+</ul>
+
+<h2 id="uruchamianie">3. Uruchamianie aplikacji</h2>
+<ol>
+    <li>Zainstaluj wymagane biblioteki:
+        <pre><code>pip install mysql-connector-python</code></pre>
+    </li>
+   
+    <li>W pliku <span class="code">main.py</span> podaj dane logowania do swojej bazy danych (host, użytkownik, hasło, nazwa bazy).</li>
+    <li>Uruchom aplikację:
+        <pre><code>python main.py</code></pre>
+    </li>
+</ol>
+
+<h2 id="opis-funkcjonalnosci">4. Opis funkcjonalności</h2>
+
+<h3>Rejestracja</h3>
+<p>Funkcja <span class="code">rejestracja()</span> pozwala nowym użytkownikom na stworzenie konta. Jeśli użytkownik o podanym loginie już istnieje, zostaje wyświetlony odpowiedni komunikat o błędzie.</p>
+
+<h3>Logowanie</h3>
+<p>Funkcja <span class="code">logowanie()</span> sprawdza poprawność loginu i hasła użytkownika. Po zalogowaniu użytkownik zostaje przeniesiony do swojego notatnika.</p>
+
+<h3>Dodawanie i wyświetlanie notatek</h3>
+<p>Użytkownik może dodawać nowe notatki, które są zapisywane w bazie danych i przypisane do jego konta. Wszystkie notatki użytkownika są wyświetlane na liście.</p>
+
+<h3>Usuwanie notatek</h3>
+<p>Użytkownik może usunąć dowolną ze swoich notatek. Notatka zostaje usunięta z bazy danych.</p>
+
+<h2 id="klasa-database">5. Klasa Database</h2>
+
+<p>Klasa <span class="code">Database</span> zarządza połączeniem z bazą danych oraz operacjami CRUD (tworzenie, odczyt, aktualizacja, usuwanie) dla tabel użytkowników i notatek. Poniżej znajduje się opis głównych metod:</p>
+
+<ul>
+    <li><span class="code">__init__(self, host, user, password, database)</span> - Inicjalizuje połączenie i tworzy bazę danych oraz tabele.</li>
+    <li><span class="code">create_tables(self)</span> - Tworzy tabele <span class="code">users</span> i <span class="code">notes</span>.</li>
+    <li><span class="code">check_user(self, login, password)</span> - Sprawdza, czy użytkownik istnieje w bazie.</li>
+    <li><span class="code">insert_user(self, login, password)</span> - Dodaje nowego użytkownika.</li>
+    <li><span class="code">get_user_id(self, login)</span> - Pobiera identyfikator użytkownika na podstawie loginu.</li>
+    <li><span class="code">select_notes_by_user(self, user_id)</span> - Pobiera wszystkie notatki dla danego użytkownika.</li>
+    <li><span class="code">insert_note(self, tresc, user_id)</span> - Dodaje nową notatkę.</li>
+    <li><span class="code">delete_note(self, note_id)</span> - Usuwa notatkę na podstawie identyfikatora.</li>
+    <li><span class="code">close(self)</span> - Zamyka połączenie z bazą danych.</li>
+</ul>
+
+<h2>Podsumowanie</h2>
+<p>Aplikacja notatnika umożliwia prostą obsługę notatek w środowisku graficznym oraz bezpieczne przechowywanie danych w bazie MySQL. Jest to przyjazne narzędzie do zarządzania krótkimi notatkami, które można łatwo rozszerzyć o dodatkowe funkcjonalności.</p>
+
+</body>
+</html>
